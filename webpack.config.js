@@ -30,8 +30,8 @@ module.exports = function makeWebpackConfig() {
    * Karma will set this when it's a test build
    */
   config.entry = isTest ? {} : {
-    app: './src/app/app.js'
-  };
+      app: './src/app/app.js'
+    };
 
   /**
    * Output
@@ -40,21 +40,21 @@ module.exports = function makeWebpackConfig() {
    * Karma will handle setting it up for you when it's a test build
    */
   config.output = isTest ? {} : {
-    // Absolute output directory
-    path: __dirname + '/dist',
+      // Absolute output directory
+      path: __dirname + '/dist',
 
-    // Output path from the view of the page
-    // Uses webpack-dev-server in development
-    publicPath: isProd ? '/' : 'http://localhost:8080/',
+      // Output path from the view of the page
+      // Uses webpack-dev-server in development
+      publicPath: isProd ? '/' : 'http://localhost:8080/',
 
-    // Filename for entry points
-    // Only adds hash in build mode
-    filename: isProd ? '[name].[hash].js' : '[name].bundle.js',
+      // Filename for entry points
+      // Only adds hash in build mode
+      filename: isProd ? '[name].[hash].js' : '[name].bundle.js',
 
-    // Filename for non-entry points
-    // Only adds hash in build mode
-    chunkFilename: isProd ? '[name].[hash].js' : '[name].bundle.js'
-  };
+      // Filename for non-entry points
+      // Only adds hash in build mode
+      chunkFilename: isProd ? '[name].[hash].js' : '[name].bundle.js'
+    };
 
   /**
    * Devtool
@@ -89,26 +89,30 @@ module.exports = function makeWebpackConfig() {
       loader: 'babel-loader',
       exclude: /node_modules/
     }, {
-      // CSS LOADER
+      // SCSS LOADER
       // Reference: https://github.com/webpack/css-loader
       // Allow loading css through js
       //
       // Reference: https://github.com/postcss/postcss-loader
       // Postprocess your css with PostCSS plugins
-      test: /\.css$/,
+      //
+      // Referance: https://github.com/jtangelder/sass-loader
+      // SASS loader makes possible to use scss
+      //
       // Reference: https://github.com/webpack/extract-text-webpack-plugin
       // Extract css files in production builds
       //
       // Reference: https://github.com/webpack/style-loader
       // Use style-loader in development.
-
+      test: /\.(scss|sass)$/,
       loader: isTest ? 'null' : ExtractTextPlugin.extract({
-        fallbackLoader: 'style-loader',
-        loader: [
-          {loader: 'css-loader', query: {sourceMap: true}},
-          {loader: 'postcss-loader'}
-        ],
-      })
+          fallbackLoader: 'style-loader',
+          loader: [
+            {loader: 'css-loader'},
+            {loader: 'postcss-loader'},
+            {loader: 'sass-loader'}
+          ]
+        })
     }, {
       // ASSET LOADER
       // Reference: https://github.com/webpack/file-loader
@@ -151,8 +155,8 @@ module.exports = function makeWebpackConfig() {
    * Reference: https://github.com/postcss/autoprefixer-core
    * Add vendor prefixes to your css
    */
-   // NOTE: This is now handled in the `postcss.config.js`
-   //       webpack2 has some issues, making the config file necessary
+  // NOTE: This is now handled in the `postcss.config.js`
+  //       webpack2 has some issues, making the config file necessary
 
   /**
    * Plugins
@@ -217,7 +221,7 @@ module.exports = function makeWebpackConfig() {
    */
   config.devServer = {
     contentBase: './src/public',
-    stats: 'minimal'
+    stats: 'normal' //'minimal'
   };
 
   return config;
