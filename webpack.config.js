@@ -45,7 +45,7 @@ module.exports = function makeWebpackConfig() {
 
       // Output path from the view of the page
       // Uses webpack-dev-server in development
-      publicPath: isProd ? '/' : 'http://localhost:8080/',
+      publicPath: isProd ? '' : 'http://localhost:8080/',
 
       // Filename for entry points
       // Only adds hash in build mode
@@ -107,11 +107,7 @@ module.exports = function makeWebpackConfig() {
       test: /\.(scss|sass)$/,
       loader: isTest ? 'null' : ExtractTextPlugin.extract({
           fallbackLoader: 'style-loader',
-          loader: [
-            {loader: 'css-loader'},
-            {loader: 'postcss-loader'},
-            {loader: 'sass-loader'}
-          ]
+          loader: ['css-loader', 'postcss-loader', 'sass-loader']
         })
     }, {
       // ASSET LOADER
@@ -196,15 +192,16 @@ module.exports = function makeWebpackConfig() {
     config.plugins.push(
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
       // Only emit files when there are no errors
-      new webpack.NoErrorsPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
 
-      // Reference: http://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
-      // Dedupe modules in the output
-      new webpack.optimize.DedupePlugin(),
+      // TODO:  WARNING in DedupePlugin: This plugin was removed from webpack. remove it from configuration.
+      // // Reference: http://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
+      // // Dedupe modules in the output
+      // new webpack.optimize.DedupePlugin(),
 
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
       // Minify all javascript, switch loaders to minimizing mode
-      new webpack.optimize.UglifyJsPlugin(),
+      // new webpack.optimize.UglifyJsPlugin(),
 
       // Copy assets from the public folder
       // Reference: https://github.com/kevlened/copy-webpack-plugin
