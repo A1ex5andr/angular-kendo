@@ -1,14 +1,25 @@
-'use strict';
+import angular from 'angular';
 
-// Declare app level module which depends on views, and components
-angular.module('myApp', [
-  'ngRoute',
-  'myApp.view1',
-  'myApp.view2',
-  'myApp.version'
-]).
-config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-  $locationProvider.hashPrefix('!');
+import '../style/app.css';
 
-  $routeProvider.otherwise({redirectTo: '/view1'});
-}]);
+let app = () => {
+  return {
+    template: require('./app.html'),
+    controller: 'AppCtrl',
+    controllerAs: 'app'
+  }
+};
+
+class AppCtrl {
+  constructor() {
+    this.url = 'https://github.com/A1ex5andr/angular-kendo/commits/dev-webpack';
+  }
+}
+
+const MODULE_NAME = 'app';
+
+angular.module(MODULE_NAME, [])
+  .directive('app', app)
+  .controller('AppCtrl', AppCtrl);
+
+export default MODULE_NAME;
