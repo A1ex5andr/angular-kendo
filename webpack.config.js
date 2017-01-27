@@ -3,6 +3,7 @@
 // Modules
 var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
+var template = require('pug!./file.pug');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
