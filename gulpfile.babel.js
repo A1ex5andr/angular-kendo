@@ -97,9 +97,14 @@ gulp.task('js', () => {
 
 });
 
+gulp.task('html',() => {
+    gulp.src(dir.source + '/**/*.html')
+        .pipe(gulp.dest(dir.root));
+});
+
 gulp.task('watch', () => {
     gulp.watch(dir.source + '/sass/**/*.scss', ['sass']);
     gulp.watch(dir.root + '/**/*', ['livereload']);
 });
 
-gulp.task('default', ['connect', 'watch', 'js', 'bower', 'sass']);
+gulp.task('default', ['connect', 'watch', 'bower', 'html', 'sass', 'js' ]);
