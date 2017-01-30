@@ -1,6 +1,6 @@
 .menu {
   list-style: none;
-  border-bottom: 0.1em solid black;
+  border-bottom: 0.1em solid #000000;
   margin-bottom: 2em;
   padding: 0 0 0.5em; }
 
@@ -16,3 +16,5 @@
 .menu > li + li:before {
   content: "|";
   padding-right: 0.3em; }
+
+/*# sourceMappingURL=styles.css.map */
