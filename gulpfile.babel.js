@@ -12,16 +12,16 @@ const dir = {
 const sassPaths = {
     src: `${dir.source}/sass/styles.scss`,
     dest: `${dir.root}/styles/`
-}
+};
 
-gulp.task('connect', function () {
+gulp.task('connect', () => {
     connect.server({
         root: dir.root,
         livereload: true
     })
 });
 
-gulp.task('sass', function () {
+gulp.task('sass', () => {
     return gulp.src(sassPaths.src)
         .pipe(sourcemaps.init())
         .pipe(sass({errLogConsole: true}))
@@ -30,12 +30,12 @@ gulp.task('sass', function () {
         .pipe(gulp.dest(sassPaths.dest));
 });
 
-gulp.task('livereload', function () {
+gulp.task('livereload', () => {
     gulp.src(dir.root + '/**/*')
         .pipe(connect.reload());
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', () => {
     gulp.watch(dir.source + '/sass/**/*.scss', ['sass']);
     gulp.watch(dir.root + '/**/*', ['livereload']);
 });
