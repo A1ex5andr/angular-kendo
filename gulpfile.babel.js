@@ -68,8 +68,9 @@ gulp.task('js', () => {
     function rebundle() {
         bundler.bundle()
             .on('error', (err) => {console.log(err); this.emit('end')})
-            .pipe(source('app.js'))
+            .pipe(source('app.min.js'))
             .pipe(buffer())
+            .pipe(uglify())
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(dir.root + '/scripts/'));
