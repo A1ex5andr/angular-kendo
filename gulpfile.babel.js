@@ -13,6 +13,11 @@ import browserify from 'browserify';
 import watchify from 'watchify';
 import babel from 'babelify';
 
+
+// TODO ENV variable
+const env = process.env.NODE_ENV;
+env ? console.log(env) : console.log('=> process.env.NODE_ENV - not found');
+
 const dir = {
     source: 'src',
     root: 'app'
@@ -21,6 +26,10 @@ const dir = {
 const sassPaths = {
     src: `${dir.source}/sass/styles.scss`,
     dest: `${dir.root}/styles/`
+};
+
+const watch = () => {
+    return compile(true);
 };
 
 gulp.task('connect', () => {
@@ -51,30 +60,31 @@ gulp.task('bower', () => {
             bowerDirectory: 'bower_components'
         }
     }))
-        .pipe(order([
-            "*angular*",
-            "*angular-route*",
-            "*angular-loader*",
-            "*angular-mocks*"
-        ]))
+        // TODO detect why it emptys bower_components folder
+        // .pipe(order([
+        //     "*angular*",
+        //     "*angular-route*",
+        //     "*angular-loader*",
+        //     "*angular-mocks*"
+        // ]))
         .pipe(concat('vendors.min.js'))
-        .pipe(uglify())
+        // .pipe(uglify()) // TODO if prod only
         .pipe(gulp.dest(dir.root + '/scripts/'));
 });
 
 gulp.task('js', () => {
     let bundler = watchify(browserify(dir.source + '/index.js', { debug: true }).transform(babel));
 
-    function rebundle() {
+    let rebundle = () => {
         bundler.bundle()
             .on('error', (err) => {console.log(err); this.emit('end')})
             .pipe(source('app.min.js'))
             .pipe(buffer())
-            .pipe(uglify())
+            // .pipe(uglify()) // TODO if prod only
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(dir.root + '/scripts/'));
-    }
+    };
 
     if (watch) {
         bundler.on('update', function() {
@@ -86,9 +96,6 @@ gulp.task('js', () => {
     rebundle();
 
 });
-function watch() {
-    return compile(true);
-};
 
 gulp.task('watch', () => {
     gulp.watch(dir.source + '/sass/**/*.scss', ['sass']);
